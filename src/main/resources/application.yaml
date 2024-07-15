@@ -9,3 +9,6 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+file:
+  storage:
+    path: "C:/Users/Aziza/Desktop/files" # Ensure this path is correct for your environment
