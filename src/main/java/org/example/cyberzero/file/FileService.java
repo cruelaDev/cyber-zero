@@ -70,4 +70,31 @@ public class FileService {
             return ResponseEntity.status(500).build();
         }
     }
+
+    public boolean deleteFile(String filename) {
+        try {
+            Path filePath = Paths.get(fileStoragePath).resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists()) {
+                fileRepository.deleteByFilename(filename);
+
+                boolean isDeleted = Files.deleteIfExists(filePath);
+                if (isDeleted) {
+                    System.out.println("File deleted successfully: " + filename);
+                    return true;
+                } else {
+                    System.out.println("Failed to delete the file: " + filename);
+                    return false;
+                }
+            } else {
+                System.out.println("File does not exist: " + filename);
+                return false;
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Malformed URL: " + e.getMessage(), e);
+        } catch (IOException e) {
+            throw new RuntimeException("IOException during file deletion: " + e.getMessage(), e);
+        }
+    }
 }

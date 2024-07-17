@@ -79,7 +79,7 @@ public class UserService {
     public void delete(UUID id) {
         userRepository
                 .findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: %s".formatted(id)));
         userRepository.deleteById(id);
     }
 }
